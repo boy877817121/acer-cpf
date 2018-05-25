@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>智慧行李箱 iCase</title>
+		<link rel="shortcut icon" href="img/luggage.png">
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/checkbox.css" />
+		<link rel="stylesheet" type="text/css" href="css/icons-font.css" />
+		<!--<link rel="stylesheet" type="text/css" href="css/buttons.css" />-->
+		<script src="js/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<section>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-12">
+							<div class="form-group col-sm-6 m-b-40">
+				                <label class="col-xs-5 control-label">手機名稱</label>
+				                <div class="col-xs-7">
+				                    <input type="text" class="form-control" readonly value="林姿伸的 iPhone"/>
+				                </div>
+				            </div>
+				            <div class="form-group col-sm-6 m-b-40">
+				                <label class="col-xs-5 control-label">iCase 名稱</label>
+				                <div class="col-xs-7">
+				                    <input type="text" class="form-control" value="iCase MGP-1601"/>
+				                </div>
+				            </div>
+				        </div>
+				        <div class="col-md-12">
+					        <div class="form-group col-xs-6 m-b-40">
+				                <label class="col-xs-6 control-label m-r-15">手動模式</label>
+				                <div class="col-xs-4">
+				                    <label class="switch">
+				                        <input type="checkbox" value="0"/>
+				                        <span></span>
+				                    </label>                              
+				                </div>
+				            </div>
+				            <div class="form-group col-xs-6 m-b-40">
+				                <label class="col-xs-6 control-label m-r-15">原地靜止</label>
+				                <div class="col-xs-4">
+				                    <label class="switch">
+				                        <input type="checkbox" checked value="0"/>
+				                        <span></span>
+				                    </label>                              
+				                </div>
+				            </div>
+				        </div>
+						<form class="ac-custom ac-checkbox ac-boxfill" autocomplete="off">
+		                    <div class="row">
+		                        <div class="col-sm-6 text-center">
+		                            <h5>iCase 與我的距離（最遠 60 公分）</h5>
+		                            <input class="knob" data-width="150" data-min="10" data-max="60" data-fgColor="#082CA9" data-displayPrevious=true value="20"/>
+		                        </div>
+		                        <div class="col-sm-6 text-center">
+		                            <h5>iCase 速度（最高 15 千米）</h5>
+		                            <input class="knob" data-width="150" data-min="2" data-max="15" data-fgColor="#333" data-displayPrevious=true value="8"/>
+		                        </div>
+		                        <div class="col-sm-6 text-center">
+		                            <h5>超過範圍通知我（最遠 30 公尺）</h5>
+		                            <input class="knob" data-width="150" data-min="5" data-max="30" data-fgColor="#F0CF0C" data-displayPrevious=true value="15"/>
+		                        </div>
+		                        <div class="col-sm-6 text-center">
+		                            <h5>超過範圍發出警報聲（最遠 50 公尺）</h5>
+		                            <input class="knob" data-width="150" data-min="10" data-max="50" data-fgColor="#FD421C" data-displayPrevious=true value="25"/>
+		                        </div>
+		                    </div>
+		                    <ul class="col-sm-12 text-center">
+								<li><input id="cb10" name="cb10" type="checkbox"><label for="cb10">發出警報聲時直接報警</label></li>
+							</ul>
+
+						</form>
+						
+					</div>
+				</div>
+			</section>
+		</div>
+
+
+		<script>
+			setup();
+			var voicebtn = document.getElementById("voicebtn");
+			var clickbtn = document.getElementById("clickbtn");
+
+			voicebtn.addEventListener('click', function(event) {
+				cpf.SetSpeech(On,en-US,"hi",2,2); 
+			});
+
+			clickbtn.addEventListener('click', function(event) {
+				cpf.initSpeechRecognition("en-US");
+				GetRecognitionListenStatus(true);
+				GetRecognizeResult(Result,"en-US"); 
+			});
+
+			function GetRecognitionListenStatus(e){
+				if (e == "true"){
+					cpf.request('["analogWrite", 3, ' + Number(value) + ']');
+				}else{
+					cpf.request('["analogWrite", 3, 0]');
+				}
+			}
+			function GetRecognizeResult(Result,Type){
+				document.getElementById("showtxt").innerHTML = Result;
+			}
+			function setup(){
+				if(cpf)
+					cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1, "INPUT"],["setPinMode", "digital", 4,"INPUT"],["setPinMode", "digital", 5, "TONE"],["setPinMode", "digital", 6,"INPUT"],["setPinMode", "digital", 3,"PWM"],["grove_newChainableLED",7, 8, 1]');
+				
+			}
+		</script>
+
+		<script src="js/svgcheckbx.js"></script>
+		<script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>      
+        <script src="js/jquery.knob.min.js"></script>
+        <script src="js/plugins.js"></script>     
+	</body>
+</html>
