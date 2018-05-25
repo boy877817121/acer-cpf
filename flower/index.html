@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>App Builder</title>
+		<link rel="icon" href="img/app-builder.png">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<style>
+			body{
+				font-family: "Lucida Console","微軟正黑體","Arial",sans-serif;
+			}
+			button{
+				background-color: #fff;
+				border: none;
+				cursor: none;
+				outline:none;
+			}
+			.bttn p{
+				color: #666;
+				margin-top: 10px;
+				font-size:20px;
+				font-weight: 500;
+			}
+			.bttn img{
+				margin: 10px;
+			}
+			.txt{
+				text-align: center;
+			}
+			.box{
+				background-color: #fff;
+				border: 1px solid #ccc;
+				padding: 20px;
+			}
+			#show{
+				font-size: 20px;
+				font-weight: 600;
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container txt">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>Flower</h1>
+					<center><img id="flower" src="img/flower.png" class="img-responsive" style="width: 50%;" /></center>
+				</div>
+				<div>
+					<div class="col-xs-12 box" align="center">
+						<!-- <div class="row">
+							<div class="col-xs-6"> -->
+									
+							<!-- </div>
+							<div class="col-xs-6"> -->
+								<button id="voicebtn" class="bttn">
+									<center><img src="img/voice.png" width="60" /></center>
+									<p id="show">可以按一下跟我說話</p>
+								</button>
+							<!-- </div>
+						</div> -->
+					</div>
+					<div class="col-xs-6 box">
+						<button id="lightbtn" class="bttn">
+							<center><img src="img/sun.png" width="80" /></center>
+							<p>Light：<span id="lighttxt">N/A</span></p>
+						</button>
+					</div>
+					<div class="col-xs-6 box">
+						<button id="tempbtn" class="bttn">
+							<center><img src="img/temp.png" width="80" /></center>
+							<p>Temp：<span id="temptxt">N/A</span></p>
+						</button>
+					</div>
+					<div class="col-xs-6 box">
+						<button id="waterbtn" class="bttn">
+							<center><img src="img/water.png" width="80" /></center>
+							<p>Water：<span id="watertxt">N/A</span></p>
+						</button>
+					</div>
+					<div class="col-xs-6 box">
+						<button id="nutbtn" class="bttn">
+							<center><img src="img/nut.png" width="80" /></center>
+							<p>Nutrient<!-- ：<span id="nutrienttxt"></span> --></p>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			setup();
+			var lightbtn = document.getElementById("lightbtn");
+			var tempbtn = document.getElementById("tempbtn");
+			var waterbtn = document.getElementById("waterbtn");
+			var nutbtn = document.getElementById("nutbtn");
+			var voicebtn = document.getElementById("voicebtn");
+			voicebtn.addEventListener('click', function(event) {
+				cpf.SetSpeech("Off", "", "", "", "");
+				cpf.initSpeechRecognition("cmn-Hant-TW"); 
+			});
+			lightbtn.addEventListener('click', function(event) {
+				$("#flower").attr("src","img/flower.gif");
+				setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+				cpf.SetSpeech("On", "cmn-Hant-TW", "太陽好舒服喔", 1.5, 0.5);
+				
+			});
+			tempbtn.addEventListener('click', function(event) {
+				$("#flower").attr("src","img/flower.gif");
+				setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+				cpf.SetSpeech("On", "cmn-Hant-TW", "就是要涼涼的天氣", 1.5, 0.5);
+				
+			});
+			waterbtn.addEventListener('click', function(event) {
+				$("#flower").attr("src","img/flower.gif");
+				setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+				cpf.SetSpeech("On", "cmn-Hant-TW", "沒事多喝水", 1.5, 0.5);
+				
+			});
+			nutbtn.addEventListener('click', function(event) {
+				$("#flower").attr("src","img/flower.gif");
+				setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+				cpf.SetSpeech("On", "cmn-Hant-TW", "吃飯皇帝大", 1.5, 0.5);
+				
+			});
+			
+			function GetRecognitionListenStatus(Status){
+				if (Status == "true"){
+					document.getElementById("show").innerHTML = "我在聽了";
+				}else{
+					
+				}
+			}
+			function GetRecognizeResult(Result,Type){
+				document.getElementById("show").innerHTML = Result;
+				if(Result.includes("陽光") || Result.includes("太陽")) {
+		       		$("#flower").attr("src","img/flower.gif");
+					setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+					cpf.SetSpeech("On", "cmn-Hant-TW", "太陽好舒服喔", 1.5, 0.5);
+		       	}else if(Result.includes("溫度") || Result.includes("冷") || Result.includes("熱")) {
+		       		$("#flower").attr("src","img/flower.gif");
+					setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+					cpf.SetSpeech("On", "cmn-Hant-TW", "就是要涼涼的天氣", 1.5, 0.5);
+		       	}else if(Result.includes("水") || Result.includes("乾枯")) {
+		       		$("#flower").attr("src","img/flower.gif");
+					setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+					cpf.SetSpeech("On", "cmn-Hant-TW", "沒事多喝水", 1.5, 0.5);
+		       	}else if(Result.includes("養分") || Result.includes("肥料")) {
+		       		$("#flower").attr("src","img/flower.gif");
+					setTimeout(function(){ $("#flower").attr("src","img/flower.png"); }, 2800);
+					cpf.SetSpeech("On", "cmn-Hant-TW", "吃飯皇帝大", 1.5, 0.5);
+		       	}
+			}
+			var lightdata;
+			var tempdata;
+			var celsius;
+			var tmp1 = true;
+			var tmp2 = true;
+			var tmp3 = true;
+			var tmp4 = true;
+			var tmp5 = true;
+			
+			function loop() {
+				if(cpf){
+					lightdata = cpf.get("a0");
+					tempdata = cpf.get("a1");
+					waterdata = cpf.get("d4");
+					celsius = toCelsius(tempdata);	
+					document.getElementById("lighttxt").innerHTML = lightdata;
+					document.getElementById("temptxt").innerHTML = celsius;
+					document.getElementById("watertxt").innerHTML = waterdata;
+					
+					if(lightdata <= 500 && tmp1){
+						$("#flower").attr("src","img/black.gif");
+						setTimeout(function(){ $("#flower").attr("src","img/black.png"); }, 2000);
+						cpf.SetSpeech("On", "cmn-Hant-TW", "快推我去曬太陽", 1.5, 0.5);
+						tmp1=false;
+					}else if(lightdata > 500){
+						tmp1=true;
+					}
+
+					if(celsius<=30 && tmp2){
+						$("#flower").attr("src","img/cold.gif");
+						setTimeout(function(){ $("#flower").attr("src","img/cold.png"); }, 2000);
+						cpf.SetSpeech("On", "cmn-Hant-TW", "空虛寂寞覺得冷", 1.5, 0.5);
+						tmp2=false;
+						tmp3=true;
+					}else if (celsius >=33 && tmp3) {
+						$("#flower").attr("src","img/hot.gif");
+						setTimeout(function(){ $("#flower").attr("src","img/hot.png"); }, 2000);
+						cpf.SetSpeech("On", "cmn-Hant-TW", "我的熱情如火", 1.5, 0.5);
+						tmp3=false;
+						tmp2=true;
+					}else if(celsius>30 && celsius<33){
+						tmp2=true;
+						tmp3=true;						
+					}
+
+					if(waterdata==0 && tmp4){
+						$("#flower").attr("src","img/drink.gif");
+						setTimeout(function(){ $("#flower").attr("src","img/drink.png"); }, 2000);
+						cpf.SetSpeech("On", "cmn-Hant-TW", "我快渴死了", 1.5, 0.5);
+						tmp4=false;
+					}else if(waterdata==1){
+						tmp4=true;
+					}
+
+					if(waterdata==1 && (celsius>30 && celsius<33) && lightdata > 500){
+						$("#flower").attr("src","img/flower.png");
+					}else if(lightdata <= 500){
+						$("#flower").attr("src","img/black.png");
+					}else if(celsius<=30){
+						$("#flower").attr("src","img/cold.png");
+					}else if(celsius >=33){
+						$("#flower").attr("src","img/hot.png");
+					}else if(waterdata==0){
+						$("#flower").attr("src","img/drink.png");
+					}
+
+				}
+				setTimeout(loop, 1000);
+			}
+			loop();
+			// Temperature
+			function toCelsius(value) {
+				var resistance = parseFloat((1023-value) * 10000 / value);
+				var temperature = 1 / (Math.log(resistance / 10000) / 3975+1 / 298.15) - 273.15;
+				
+				return temperature.toFixed(2);
+			}
+			function setup(){
+				if(cpf){
+					cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital", 4,"INPUT"]');
+				}
+			}
+		</script> 
+	</body>
+</html>
